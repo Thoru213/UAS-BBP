@@ -29,9 +29,9 @@ $hasil = $mysqli -> query("SELECT * FROM antrian WHERE status = 'approved'");
             <th>Solusi</th>
             <th>Status Penyelesaian</th>
         </tr>
+        <?php $i = 1?>
         <?php while ($row = $hasil ->fetch_assoc()): ?>
             <tr>
-                <?php $i = 1?>
                 <td><?= $i; ?></td>
                 <td><?= $row['kategori'] ?></td>
                 <td><?= $row['lokasi'] ?></td>

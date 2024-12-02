@@ -40,7 +40,6 @@ $hasil = $mysqli -> query("SELECT * FROM antrian");
             <th>Solusi</th>
             <th>Status Penyelesaian</th>
             <th>Status</th>
-        </tr>
         <?php $i = 1?>
         <?php foreach($hasil as $dat):?>
                 <tr>
