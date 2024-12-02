@@ -5,15 +5,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['delete'])) {
         $id = (int)$_POST['id'];
         $mysqli->query("DELETE FROM antrian WHERE id = $id");
-    } elseif (isset($_POST['update'])) {
-        $id = (int)$_POST['id'];
-        $content = $mysqli->real_escape_string($_POST['content']);
-        $mysqli->query("UPDATE antrian SET content = '$content' WHERE id = $id");
     } elseif (isset($_POST['approve'])) {
         $id = (int)$_POST['id'];
         $mysqli->query("UPDATE antrian SET status = 'approved' WHERE id = $id");
+    } elseif (isset($_POST['pending'])) {
+        $id = (int)$_POST['id'];
+        $mysqli->query("UPDATE antrian SET status = 'pending' WHERE id = $id");
     }
 }
+
 
 $hasil = $mysqli -> query("SELECT * FROM antrian");
 ?>
@@ -31,33 +31,50 @@ $hasil = $mysqli -> query("SELECT * FROM antrian");
     <h2>All Entries</h2>
     <table border="1">
         <tr>
-            <th>ID</th>
-            <th>Content</th>
+        <tr>
+            <th>Nomor</th>
+            <th>Kategori</th>
+            <th>Lokasi</th>
+            <th>Urgensi</th>
+            <th>Deskripsi</th>
+            <th>Solusi</th>
+            <th>Status Penyelesaian</th>
             <th>Status</th>
-            <th>Actions</th>
         </tr>
-        <?php while ($row = $hasil->fetch_assoc()): ?>
-            <tr>
-                <td><?= $row['id'] ?></td>
-                <td><?= $row['content'] ?></td>
-                <td><?= $row['status'] ?></td>
+        <?php $i = 1?>
+        <?php foreach($hasil as $dat):?>
+                <tr>
+                <td><?= $i; ?></td>
+                <td><?= $dat['kategori'] ?></td>
+                <td><?= $dat['lokasi'] ?></td>
+                <td><?= $dat['tingkat'] ?></td>
+                <td><?= $dat['deskripsi'] ?></td>
+                <td><?= $dat['solusi'] ?></td>
+                <td><?= $dat['penyelesaian'] ?></td>
+                <td><?= $dat['status'] ?></td>
+                <?php $i++;?>
                 <td>
                     <form method="POST" style="display:inline;">
-                        <input type="hidden" name="id" value="<?= $row['id'] ?>">
-                        <textarea name="content"><?= $row['content'] ?></textarea>
+                        <input type="hidden" name="id" value="<?= $dat['id'] ?>">
+                        <?php if ($dat['status'] === 'pending'): ?>
+                            <button type="submit" name="approve">Approve</button>
+                        <?php elseif ($dat['status'] === 'approved'): ?>
+                            <button type="submit" name="pending">Pending</button>
+                        <?php endif; ?>
+                    </form>
+
+                    <form method="POST" action="update_a.php" style="display:inline;">
                         <button type="submit" name="update">Update</button>
                     </form>
+
                     <form method="POST" style="display:inline;">
-                        <input type="hidden" name="id" value="<?= $row['id'] ?>">
-                        <button type="submit" name="approve">Approve</button>
-                    </form>
-                    <form method="POST" style="display:inline;">
-                        <input type="hidden" name="id" value="<?= $row['id'] ?>">
+                        <input type="hidden" name="id" value="<?= $dat['id'] ?>">
                         <button type="submit" name="delete">Delete</button>
                     </form>
                 </td>
             </tr>
-        <?php endwhile; ?>
+                </tr>
+        <?php endforeach; ?>
     </table>
 
 

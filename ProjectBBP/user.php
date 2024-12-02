@@ -2,8 +2,8 @@
 require 'config.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $content = $mysqli -> real_escape_string($_POST['content']);
-    $mysqli -> query("INSERT INTO antrian (content) VALUES ('$content')");
+    $content = $mysqli -> real_escape_string($_POST['deskripsi']);
+    $mysqli -> query("INSERT INTO antrian (deskripsi) VALUES ('$content')");
 }
 
 $hasil = $mysqli -> query("SELECT * FROM antrian WHERE status = 'approved'");
@@ -21,22 +21,32 @@ $hasil = $mysqli -> query("SELECT * FROM antrian WHERE status = 'approved'");
     <h2>Resiko yang Telah Disetujui</h2>
     <table border="1">
         <tr>
-            <th>ID</th>
-            <th>Content</th>
-            <th>Created At</th>
+        <th>Nomor</th>
+            <th>Kategori</th>
+            <th>Lokasi</th>
+            <th>Urgensi</th>
+            <th>Deskripsi</th>
+            <th>Solusi</th>
+            <th>Status Penyelesaian</th>
         </tr>
         <?php while ($row = $hasil ->fetch_assoc()): ?>
             <tr>
-                <td><?= $row['id'] ?></td>
-                <td><?= $row['content'] ?></td>
-                <td><?= $row['created_at'] ?></td>
+                <?php $i = 1?>
+                <td><?= $i; ?></td>
+                <td><?= $row['kategori'] ?></td>
+                <td><?= $row['lokasi'] ?></td>
+                <td><?= $row['tingkat'] ?></td>
+                <td><?= $row['deskripsi'] ?></td>
+                <td><?= $row['solusi'] ?></td>
+                <td><?= $row['penyelesaian'] ?></td>
+                <?php $i++;?>
             </tr>
         <?php endwhile; ?>
     </table>
 
     <h3>Submit New Entry</h3>
     <form method="POST">
-        <textarea name="content" required></textarea><br>
+        <textarea name="deskripsi" required></textarea><br>
         <button type="submit">Submit</button>
 
     <a href="index.php">Logout</a>
