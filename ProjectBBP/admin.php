@@ -76,7 +76,12 @@ $hasil = $mysqli -> query("SELECT * FROM antrian");
         <?php endforeach; ?>
     </table>
 
-
+    <br>
+    <form method="POST" action="tambah_a.php" style="display:inline;">
+                        <button type="submit" name="tambah">Tambah resiko</button>
+                    </form>
+    <br>
+    <br>
     <a href="index.php">Logout</a>
 </body>
 </html>
