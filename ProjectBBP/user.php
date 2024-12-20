@@ -3,20 +3,9 @@ require 'config.php';
 
 session_start();
 ceklogin();
-class Antrian {
-    private $mysqli;
 
-    public function __construct($mysqli) {
-        $this->mysqli = $mysqli;
-    }
 
-    public function getApprovedRisks() {
-        $query = "SELECT * FROM antrian WHERE status = 'approved'";
-        return $this->mysqli->query($query);
-    }
-}
-
-$antrian = new Antrian($mysqli);
+$antrian = new User($mysqli);
 
 $hasil = $antrian->getApprovedRisks();
 ?>

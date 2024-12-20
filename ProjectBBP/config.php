@@ -24,4 +24,44 @@ function ceklogin() {
         exit;
     }
 }
+class Admin {
+    private $db;
+
+    public function __construct($db) {
+        $this->db = $db;
+    }
+
+    public function getAllEntries() {
+        $query = "SELECT * FROM antrian";
+        $result = $this->db->query($query);
+        return $result->fetch_all(MYSQLI_ASSOC);
+    }
+
+    public function deleteEntry($id) {
+        $query = "DELETE FROM antrian WHERE id = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('i', $id);
+        $stmt->execute();
+    }
+
+    public function updateStatus($id, $status) {
+        $query = "UPDATE antrian SET status = ? WHERE id = ?";
+        $stmt = $this->db->prepare($query);
+        $stmt->bind_param('si', $status, $id);
+        $stmt->execute();
+    }
+}
+
+class User {
+    private $mysqli;
+
+    public function __construct($mysqli) {
+        $this->mysqli = $mysqli;
+    }
+
+    public function getApprovedRisks() {
+        $query = "SELECT * FROM antrian WHERE status = 'approved'";
+        return $this->mysqli->query($query);
+    }
+}
 ?>

@@ -4,34 +4,6 @@ require 'config.php';
 session_start();
 ceklogin();
 
-class Admin {
-    private $db;
-
-    public function __construct($db) {
-        $this->db = $db;
-    }
-
-    public function getAllEntries() {
-        $query = "SELECT * FROM antrian";
-        $result = $this->db->query($query);
-        return $result->fetch_all(MYSQLI_ASSOC);
-    }
-
-    public function deleteEntry($id) {
-        $query = "DELETE FROM antrian WHERE id = ?";
-        $stmt = $this->db->prepare($query);
-        $stmt->bind_param('i', $id);
-        $stmt->execute();
-    }
-
-    public function updateStatus($id, $status) {
-        $query = "UPDATE antrian SET status = ? WHERE id = ?";
-        $stmt = $this->db->prepare($query);
-        $stmt->bind_param('si', $status, $id);
-        $stmt->execute();
-    }
-}
-
 $admin = new Admin($mysqli);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
