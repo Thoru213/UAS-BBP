@@ -1,7 +1,7 @@
 <?php
 session_start();
 
-if (isset($_POST["login"])) {
+if (!isset($_POST["login"])) {
     if ($_POST["username"] == "admin" && $_POST["password"] == "123") {
         $_SESSION['loggedin'] = true;
         header("Location: admin.php");
