@@ -88,7 +88,7 @@ $entries = $admin->getAllEntries();
                         <?php endif; ?>
                     </form>
 
-                    <form method="POST" action="update.php" style="display:inline;">
+                    <form method="POST" action="update_a.php" style="display:inline;">
                         <input type="hidden" name="id" value="<?= $entry['id']; ?>">
                         <button type="submit" name="update">Update</button>
                     </form>
