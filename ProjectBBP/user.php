@@ -1,6 +1,8 @@
 <?php
 require 'config.php';
 
+session_start();
+ceklogin();
 class Antrian {
     private $mysqli;
 

@@ -17,4 +17,11 @@ function enum($query){
     $enumList = explode(",", str_replace("'", "", substr($row[1], 5, (strlen($row[1])-6))));
     return $enumList;
 }
+
+function ceklogin() {
+    if (!isset($_SESSION["loggedin"])) {
+        header('Location: index.php');
+        exit;
+    }
+}
 ?>

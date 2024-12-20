@@ -1,12 +1,15 @@
 <?php
+require 'config.php';
+
 session_start();
 
-if (!isset($_POST["login"])) {
+if (isset($_POST["login"])) {
     if ($_POST["username"] == "admin" && $_POST["password"] == "123") {
         $_SESSION['loggedin'] = true;
         header("Location: admin.php");
         exit;
     } elseif ($_POST["username"] == "user" && $_POST["password"] == "456") {
+        $_SESSION['loggedin'] = true;
         header("Location: user.php");
         exit;
     } else {
