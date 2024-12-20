@@ -1,6 +1,5 @@
 <?php
     if(isset($_POST["login"])) {
-        //cek username dan password
         if($_POST["username"] == "admin" && $_POST["password"] == "123") {
             header("Location: admin.php");
             exit;
