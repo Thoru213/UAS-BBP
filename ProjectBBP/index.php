@@ -1,15 +1,6 @@
 <?php
 session_start();
 
-if (!isset($_SESSION['loggedin'])) {
-    $_SESSION['loggedin'] = false;
-}
-
-if (basename($_SERVER['PHP_SELF']) == 'admin.php' && $_SESSION['loggedin'] == false) {
-    header('Location: index.php');
-    exit;
-}
-
 if (isset($_POST["login"])) {
     if ($_POST["username"] == "admin" && $_POST["password"] == "123") {
         $_SESSION['loggedin'] = true;
