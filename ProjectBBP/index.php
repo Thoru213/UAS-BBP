@@ -1,15 +1,28 @@
 <?php
-    if(isset($_POST["login"])) {
-        if($_POST["username"] == "admin" && $_POST["password"] == "123") {
-            header("Location: admin.php");
-            exit;
-        } elseif ($_POST["username"] == "user" && $_POST["password"] == "456") {
-            header("Location: user.php");
-        } 
-        else {
-            echo "Username tidak ditemukan!";
-        }
+session_start();
+
+if (!isset($_SESSION['loggedin'])) {
+    $_SESSION['loggedin'] = false;
+}
+
+if (basename($_SERVER['PHP_SELF']) == 'admin.php' && $_SESSION['loggedin'] == false) {
+    header('Location: index.php');
+    exit;
+}
+
+if (isset($_POST["login"])) {
+    if ($_POST["username"] == "admin" && $_POST["password"] == "123") {
+        $_SESSION['loggedin'] = true;
+        header("Location: admin.php");
+        exit;
+    } elseif ($_POST["username"] == "user" && $_POST["password"] == "456") {
+        header("Location: user.php");
+        exit;
+    } else {
+        $_SESSION['loggedin'] = false;
+        echo "Username tidak ditemukan!";
     }
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
