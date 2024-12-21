@@ -1,10 +1,12 @@
 <?php
 require 'config.php';
 
-session_start();
-ceklogin();
-
 $admin = new Admin($mysqli);
+$db = new Data();
+
+session_start();
+$db -> ceklogin();
+
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $id = (int)$_POST['id'];

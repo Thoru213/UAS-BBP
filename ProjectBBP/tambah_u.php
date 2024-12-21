@@ -1,10 +1,11 @@
 <?php
 require 'config.php';
+$data = new Data();
 
-$enumKategori = enum('kategori');
-$enumLokasi = enum('lokasi');
-$enumUrgensi = enum('tingkat');
-$enumPenyelesaian = enum('penyelesaian');
+$enumKategori = $data -> enum('kategori');
+$enumLokasi = $data -> enum('lokasi');
+$enumUrgensi = $data -> enum('tingkat');
+$enumPenyelesaian = $data -> enum('penyelesaian');
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
     $kategori = $_POST['kategori'];

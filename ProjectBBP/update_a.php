@@ -1,53 +1,8 @@
 <?php
 require 'config.php';
 
-class Antrian {
-    private $mysqli;
 
-    public function __construct($mysqli) {
-        $this->mysqli = $mysqli;
-    }
-
-    public function getAntrianById($id) {
-        $query = "SELECT * FROM antrian WHERE id = ?";
-        if ($stmt = $this->mysqli->prepare($query)) {
-            $stmt->bind_param("i", $id);
-            $stmt->execute();
-            $result = $stmt->get_result();
-            return $result->fetch_assoc();
-        }
-        return null;
-    }
-
-    public function updateUrgensi($id, $urgensi) {
-        $updateQuery = "UPDATE antrian SET tingkat = ? WHERE id = ?";
-        if ($stmt = $this->mysqli->prepare($updateQuery)) {
-            $stmt->bind_param("si", $urgensi, $id);
-            $stmt->execute();
-            $stmt->close();
-        }
-    }
-
-    public function updateStatus($id, $status) {
-        $updateQuery = "UPDATE antrian SET penyelesaian = ? WHERE id = ?";
-        if ($stmt = $this->mysqli->prepare($updateQuery)) {
-            $stmt->bind_param("si", $status, $id);
-            $stmt->execute();
-            $stmt->close();
-        }
-    }
-
-    public function updateSolusi($id, $solusi) {
-        $updateQuery = "UPDATE antrian SET solusi = ? WHERE id = ?";
-        if ($stmt = $this->mysqli->prepare($updateQuery)) {
-            $stmt->bind_param("si", $solusi, $id);
-            $stmt->execute();
-            $stmt->close();
-        }
-    }
-}
-
-$antrian = new Antrian($mysqli);
+$antrian = new Update($mysqli);
 
 $id = isset($_POST['id']) ? (int)$_POST['id'] : (isset($_GET['id']) ? (int)$_GET['id'] : 0);
 
@@ -178,7 +133,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <br><br>
             <button type="submit">Kirim Solusi</button>
         </form>
-
+        <br>
+        <a href="admin.php">Kembali</a>
         <?php else: ?>
             <p>Record tidak ditemukan.</p>
         <?php endif; ?>
