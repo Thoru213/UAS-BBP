@@ -2,10 +2,10 @@
 require 'config.php';
 
 $admin = new Admin($mysqli);
-$db = new Data();
+$data = new Data();
 
 session_start();
-$db -> ceklogin();
+$data -> ceklogin();
 
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {

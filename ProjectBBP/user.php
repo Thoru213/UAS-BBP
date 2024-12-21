@@ -1,10 +1,10 @@
 <?php
 require 'config.php';
 
-$db = new Data();
+$data = new Data();
 $antrian = new User($mysqli);
 session_start();
-$db -> ceklogin();
+$data -> ceklogin();
 
 
 $hasil = $antrian->getApprovedRisks();
