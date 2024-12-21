@@ -1,12 +1,11 @@
 <?php
 require 'config.php';
 
-
 $antrian = new Update($mysqli);
 
+$dat = $antrian->getAntrianById($id);
 $id = isset($_POST['id']) ? (int)$_POST['id'] : (isset($_GET['id']) ? (int)$_GET['id'] : 0);
 
-$dat = $antrian->getAntrianById($id);
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST['urgensi']) && isset($_POST['id'])) {
