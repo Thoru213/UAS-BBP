@@ -19,12 +19,6 @@ class Data{
         return $enumList;
     }
     
-    function ceklogin() {
-        if (!isset($_SESSION["loggedin"])) {
-            header('Location: index.php');
-            exit;
-        }
-    }
 }
 
 class Admin {
@@ -52,19 +46,6 @@ class Admin {
         $stmt = $this->db->prepare($query);
         $stmt->bind_param('si', $status, $id);
         $stmt->execute();
-    }
-}
-
-class User {
-    private $mysqli;
-
-    public function __construct($mysqli) {
-        $this->mysqli = $mysqli;
-    }
-
-    public function getApprovedRisks() {
-        $query = "SELECT * FROM antrian WHERE status = 'approved'";
-        return $this->mysqli->query($query);
     }
 }
 
@@ -112,5 +93,29 @@ class Update {
             $stmt->close();
         }
     }
+    
+    public function updateProbabilitas($id, $probabilitas) {
+        $updateQuery = "UPDATE antrian SET probabilitas = ? WHERE id = ?";
+        if ($stmt = $this->mysqli->prepare($updateQuery)) {
+            $stmt->bind_param("si", $probabilitas, $id);
+            $stmt->execute();
+            $stmt->close();
+        }
+    }
+    
 }
+class User {
+    private $mysqli;
+
+    public function __construct($mysqli) {
+        $this->mysqli = $mysqli;
+    }
+
+    public function getApprovedRisks() {
+        $query = "SELECT * FROM antrian WHERE status = 'approved'";
+        return $this->mysqli->query($query);
+    }
+}
+
+
 ?>

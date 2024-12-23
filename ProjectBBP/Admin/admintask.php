@@ -1,0 +1,199 @@
+<?php
+require '..\config.php';
+
+$admin = new Admin($mysqli);
+$data = new Data();
+
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $id = (int)$_POST['id'];
+    if (isset($_POST['delete'])) {
+        $admin->deleteEntry($id);
+    } elseif (isset($_POST['approve'])) {
+        $admin->updateStatus($id, 'approved');
+    } elseif (isset($_POST['pending'])) {
+        $admin->updateStatus($id, 'pending');
+    }
+}
+
+$entries = $admin->getAllEntries();
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap Link CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    />
+    <link rel="stylesheet" href="admin.css" />
+    <title>Manajemen</title>
+</head>
+<body>
+    <!-- Side Nav-->
+    <div class="wrapper">
+      <aside id="sidebar">
+        <div class="d-flex">
+          <button id="toggle-btn" type="button">
+            <i class="bi bi-grid"></i>
+          </button>
+          <div class="sidebar-logo">
+            <a href="#">Risk Management System</a>
+          </div>
+        </div>
+        <ul class="sidebar-nav">
+          <li class="sidebar-item">
+            <a href="admindashboard.php" class="sidebar-link">
+              <i class="bi bi-collection"></i>
+              <span>Dashboard</span>
+            </a>
+          </li>
+          <li class="sidebar-item">
+            <a
+              href="#"
+              class="sidebar-link has-dropdown collapsed"
+              data-bs-toggle="collapse"
+              data-bs-target="#auth"
+              aria-expanded="false"
+              aria-controls="auth"
+              ><i class="bi bi-list-task"></i>
+              <span>Task</span>
+            </a>
+            <ul
+              id="auth"
+              class="sidebar-dropdown list-unstyled collapse"
+              data-bs-parent="#sidebar"
+            >
+              <li class="sidebar-item">
+                <a href="lihattask.php" class="sidebar-link">Lihat</a>
+              </li>
+              <li class="sidebar-item">
+                <a href="tambah_a.php" class="sidebar-link">Register</a>
+              </li>
+              <li class="sidear-item">
+                <a href="admintask.php"class ="sidebar-link">Manage</a>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <div class="sidebar-footer">
+          <a href="../index.php" class="sidebar-link">
+            <i class="bi bi-box-arrow-left"></i>
+            <span>Logout</span>
+          </a>
+        </div>
+      </aside>
+    <!-- Side Nav-->
+      <div class="main">
+        <!-- Bagian atas-->
+        <nav class="navbar navbar-expand px-4 py-3">
+            <div class="navbar-collapse collapse">
+              <ul class="navbar-nav ms-auto">
+              <h3 class="fw-bold fs-4 mb-3" style="color:white">Workspace</h3>
+              </ul>
+            </div>
+          </nav>
+          <main class="content px-3 py-4">
+          <div class="container-fluid">
+            <div class="mb-3 mx-1">
+              <div class="row">
+                <div class="col-12">
+                <table id="risktable">
+                    <thead>
+                      <tr class="highlight">
+                        <th>Nomor</th>
+                        <th>Kategori</th>
+                        <th>Lokasi</th>
+                        <th>Dampak</th>
+                        <th>Probabilitas</th>
+                        <th>Deskripsi</th>
+                        <th>Solusi</th>
+                        <th>Status Penyelesaian</th>
+                        <th>Status</th>
+                        <th>Aksi</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <?php $i = 1?>
+                      <?php foreach($entries as $entry):?>
+                        <tr>
+                          <td><?= $i++; ?></td>
+                          <td><?= htmlspecialchars($entry['kategori']); ?></td>
+                          <td><?= htmlspecialchars($entry['lokasi']); ?></td>
+                          <td><?= htmlspecialchars($entry['tingkat']); ?></td>
+                          <td><?= htmlspecialchars($entry['probabilitas']); ?></td>
+                          <td><?= htmlspecialchars($entry['deskripsi']); ?></td>
+                          <td><?= htmlspecialchars($entry['solusi']); ?></td>
+                          <td><?= htmlspecialchars($entry['penyelesaian']); ?></td>
+                          <td><?= htmlspecialchars($entry['status']); ?></td>
+                          <td>
+                              <form method="POST" style="display:inline;">
+                                  <input type="hidden" name="id" value="<?= $entry['id'] ?>">
+                                  <?php if ($entry['status'] === 'pending'): ?>
+                                      <button type="submit" name="approve">
+                                      <i class="bi bi-hand-thumbs-up"></i>
+                                      </button>
+                                  <?php elseif ($entry['status'] === 'approved'): ?>
+                                      <button type="submit" name="pending">
+                                      <i class="bi bi-pause"></i>
+                                      </button>
+                                  <?php endif; ?>
+                              </form>
+
+                              <form method="POST" action="update.php" style="display:inline;">
+                                  <input type="hidden" name="id" value="<?= $entry['id'] ?>">
+                                  <button type="submit" name="update">
+                                  <i class="bi bi-pencil"></i>
+                                  </button>
+                              </form>
+                              
+                              <form method="POST" style="display:inline;">
+                                  <input type="hidden" name="id" value="<?= $entry['id'] ?>">
+                                  <button type="submit" name="delete">
+                                  <i class="bi bi-trash3"></i>
+                                  </button>
+                              </form>
+                                </td>
+                                </tr>
+                      <?php endforeach; ?>
+                  </tbody>
+                </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          </main>
+        <!-- Bagian bawah-->
+        <footer class="footer" id="bottom-part">
+            <div class="container-fluid">
+              <div class="row text-body-secondary">
+                <div class="col-6 text-start">
+                  <a href="#" class="text-body-secondary">
+                    <strong>Risk Management System</strong>
+                  </a>
+                </div>
+              </div>
+            </div>
+        </footer>
+      </div>
+      <!-- Bagian bawah-->
+    </div>
+
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+      crossorigin="anonymous"></script>
+    <script src="admin.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+  </body>
+</html>
