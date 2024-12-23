@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Dec 08, 2024 at 12:03 PM
+-- Generation Time: Dec 23, 2024 at 09:26 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.2.4
 
@@ -32,6 +32,7 @@ CREATE TABLE `antrian` (
   `kategori` enum('Fasilitas','Tenaga Pendidik','Keamanan') DEFAULT 'Fasilitas',
   `lokasi` enum('FST','GKT','FSH','FISHUM','SC') DEFAULT 'FST',
   `tingkat` enum('Berat','Sedang','Ringan') DEFAULT 'Berat',
+  `probabilitas` enum('Jarang Terjadi','Terjadi','Sering Terjadi') NOT NULL DEFAULT 'Terjadi',
   `deskripsi` varchar(100) DEFAULT NULL,
   `solusi` varchar(500) DEFAULT NULL,
   `penyelesaian` enum('Menunggu','Proses','Selesai') DEFAULT 'Menunggu',
@@ -42,8 +43,8 @@ CREATE TABLE `antrian` (
 -- Dumping data for table `antrian`
 --
 
-INSERT INTO `antrian` (`id`, `kategori`, `lokasi`, `tingkat`, `deskripsi`, `solusi`, `penyelesaian`, `status`) VALUES
-(52, 'Fasilitas', 'FST', 'Berat', 'deskripsi', NULL, 'Menunggu', 'pending');
+INSERT INTO `antrian` (`id`, `kategori`, `lokasi`, `tingkat`, `probabilitas`, `deskripsi`, `solusi`, `penyelesaian`, `status`) VALUES
+(90, 'Tenaga Pendidik', 'GKT', 'Berat', 'Sering Terjadi', 'Barang Hilang', 'Pasang CCTV', 'Selesai', 'approved');
 
 --
 -- Indexes for dumped tables
@@ -63,7 +64,7 @@ ALTER TABLE `antrian`
 -- AUTO_INCREMENT for table `antrian`
 --
 ALTER TABLE `antrian`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=91;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
